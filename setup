@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# this script installs RemoteGPIO following SetupHelper rules (https://github.com/kwindrem/SetupHelper)
+# this script installs ContextStorage following SetupHelper rules (https://github.com/kwindrem/SetupHelper)
 #
 # this script will accept the following commands on the command line:
 #	setup install
 #	setup uninstall
 
-packageLogFile="/var/log/RemoteGPIO/current"
+packageLogFile="/var/log/ContextStorage/current"
 
 #### following lines incorporate SetupHelper utilities into this script
 # Refer to the SetupHelper ReadMe file for details.
@@ -18,15 +18,14 @@ source "/data/SetupHelper/CommonResources"
 # GitHub account info - fill in as appropriate
 # to include this package in SetupHelper automatic updates
 packageGitHubUser="thomasinaz41213"
-packageGitHubBranch="Latest"
+packageGitHubBranch="main"
 
 restartSystemCalc=false
 
 #### running manually and OK to proceed - prompt for input
 if [ $scriptAction == 'NONE' ] ; then
 	echo
-	echo "The RemoteGPIO is adding external Relays and Digital Inputs"
-	echo "with external box attached via USB port"
+	echo "Enabling Context Storage in Node Red"
 	echo
 	standardActionPrompt
 fi
@@ -34,24 +33,14 @@ fi
 #### here to do the actual work
 
 if [ $scriptAction == 'INSTALL' ] ; then
-	logMessage "++ Installing RemoteGPIO"
+	logMessage "++ Installing ContextStorage"
 
-	tar -xvzf /data/RemoteGPIO/FileSets/Shared/rgpio.tar.gz -C /data
     
 	installService $packageName
 
-	updateActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
-	updateActiveFile /etc/venus/gpio_list
-	updateActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
-	updateActiveFile /data/rgpio/conf/RemoteGPIO.json
+	updateActiveFile /usr/lib/node_modules/node-red/venus-settings.js
 
 	##
-	## Creating /dev/gpio links at boot so the bus services are automatically created 
-	##
-	ln -s /data/rgpio/conf/S90rgpio_pins.sh /etc/rcS.d/S90rgpio_pins.sh
-	/data/rgpio/conf/S90rgpio_pins.sh
-	
-	restartSystemCalc=true
 
 	logMessage "++ $packageName installed"
 fi
@@ -59,26 +48,17 @@ fi
 # #### uninstalling - check scriptAction again
 # if an install step failed package needs to be removed
 if [ $scriptAction == 'UNINSTALL' ] ; then
-    logMessage "++ Uninstalling RemoteGPIO"
+    logMessage "++ Uninstalling ContextStorage"
 
 	
-	restoreActiveFile /opt/victronenergy/dbus-systemcalc-py/delegates/relaystate.py 
-	restoreActiveFile /etc/venus/gpio_list
-	restoreActiveFile /usr/lib/node_modules/@victronenergy/node-red-contrib-victron/src/services/services.json
+	restoreActiveFile /usr/lib/node_modules/node-red/venus-settings.js
 	
-	rm /etc/rcS.d/S90rgpio_pins.sh
-	rm /dev/gpio/relay_3
-	rm /dev/gpio/relay_4
-	rm /dev/gpio/relay_5
-	rm /dev/gpio/relay_6
 	
 	##
 	
 	removeService $packageName
-	restartSystemCalc=true
+	restartSystemCalc=false
 		
-	rm -r /data/rgpio
-#	rm -r /data/RemoteGPIO
 	logMessage "++ $packageName uninstalled"
 fi
 
@@ -88,10 +68,8 @@ if $filesUpdated ; then
     ##
     ## Reboot or restart the services
     ##
-#    svc -d /service/dbus-systemcalc-py/ ; svc -u /service/dbus-systemcalc-py/
-#    svc -d /service/gui ; svc -u /service/gui
-#    svc -d /service/node-red-venus ; svc -u /service/node-red-venus
-    restartGui=true
+    svc -d /service/node-red-venus ; svc -u /service/node-red-venus
+    restartGui=false
 fi
 
 if $restartSystemCalc ; then
@@ -101,4 +79,3 @@ fi
 
 # thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
 endScript
-
