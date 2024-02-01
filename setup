@@ -35,8 +35,6 @@ fi
 if [ $scriptAction == 'INSTALL' ] ; then
 	logMessage "++ Installing ContextStorage"
 
-    
-	installService $packageName
 
 	updateActiveFile /usr/lib/node_modules/node-red/venus-settings.js
 
@@ -56,7 +54,6 @@ if [ $scriptAction == 'UNINSTALL' ] ; then
 	
 	##
 	
-	removeService $packageName
 	restartSystemCalc=false
 		
 	logMessage "++ $packageName uninstalled"
