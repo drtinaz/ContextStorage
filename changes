@@ -8,3 +8,5 @@ v1.2
     change versioning method to comply with victron versioning method
 v1.3
     remove service install/uninstall from setup file
+v1.4
+    remove old venus beta filesets
