@@ -1,12 +1,14 @@
-v1.0
-    initial release supports venus os v3.13
-v1.1
-    added support for v3.20~33
-v1.1.1
-    changed github user to 'thomasinaz41213'
-v1.2
-    change versioning method to comply with victron versioning method
-v1.3
-    remove service install/uninstall from setup file
+v1.5
+    add support for v3.30~15
 v1.4
     remove old venus beta filesets
+v1.3
+    remove service install/uninstall from setup file
+v1.2
+    change versioning method to comply with victron versioning method
+v1.1.1
+    changed github user to 'thomasinaz41213'
+v1.1
+    added support for v3.20~33
+v1.0
+    initial release supports venus os v3.13
