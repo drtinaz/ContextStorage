@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#
 # this script will install any package that can use
 # the automated install and uninstall mechanisms provided by SetupHelper
 # that is, no custom prompting for command line exection
