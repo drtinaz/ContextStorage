@@ -6,6 +6,9 @@
 # that is, no custom prompting for command line exection
 #	and no custom installation such as editing replacement files
 #
+
+packageLogFile="/var/log/ContextStorage/current"
+
 # link the package's setup script to this one:
 #	ln -s /data/SetupHelper/genericSetupScript /data/<package name>/setup
 
