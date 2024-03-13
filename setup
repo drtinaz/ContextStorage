@@ -1,79 +1,34 @@
 #!/bin/bash
 
-# this script installs ContextStorage following SetupHelper rules (https://github.com/kwindrem/SetupHelper)
 #
-# this script will accept the following commands on the command line:
-#	setup install
-#	setup uninstall
+# this script will install any package that can use
+# the automated install and uninstall mechanisms provided by SetupHelper
+# that is, no custom prompting for command line exection
+#	and no custom installation such as editing replacement files
+#
+# link the package's setup script to this one:
+#	ln -s /data/SetupHelper/genericSetupScript /data/<package name>/setup
 
-packageLogFile="/var/log/ContextStorage/current"
+# tell CommonResources to:
+#	prompt for install/uninstall
+#	auto install or auto uninstall
+#	then exit
+#	CommonResources will NOT return here !
 
-#### following lines incorporate SetupHelper utilities into this script
-# Refer to the SetupHelper ReadMe file for details.
+standardPromptAndActions='yes'
 
-source "/data/SetupHelper/CommonResources"
-
-#### end of lines to include SetupHelper
-
-# GitHub account info - fill in as appropriate
-# to include this package in SetupHelper automatic updates
-packageGitHubUser="thomasinaz41213"
-packageGitHubBranch="main"
-
-restartSystemCalc=false
-
-#### running manually and OK to proceed - prompt for input
-if [ $scriptAction == 'NONE' ] ; then
-	echo
-	echo "Enabling Context Storage in Node Red"
-	echo
-	standardActionPrompt
+#### following lines incorporate helper resources into this script
+pkgDir=$( dirname $0 )
+pkgName=$( basename $pkgDir )
+pkgRoot=$( dirname $pkgDir )
+if [ -e "$pkgDir/HelperResources/IncludeHelpers" ]; then
+	source "$pkgDir/HelperResources/IncludeHelpers"
+elif [ -e "$pkgRoot/SetupHelper/HelperResources/IncludeHelpers" ]; then
+	source "$pkgRoot/SetupHelper/HelperResources/IncludeHelpers"
+else
+	echo "$pkgName: helper files not found - can't continue" | tee -a "/data/log/SetupHelper"
+	exit 1
 fi
+#### end of lines to include helper resources
 
-#### here to do the actual work
-
-
-if [ $scriptAction == 'INSTALL' ] ; then
-	logMessage "++ Installing ContextStorage"
-
-
-	updateActiveFile /usr/lib/node_modules/node-red/venus-settings.js
-
-	##
-
-	logMessage "++ $packageName installed"
-fi
-
-# #### uninstalling - check scriptAction again
-# if an install step failed package needs to be removed
-if [ $scriptAction == 'UNINSTALL' ] ; then
-    logMessage "++ Uninstalling ContextStorage"
-
-	
-	restoreActiveFile /usr/lib/node_modules/node-red/venus-settings.js
-	
-	
-	##
-	
-	restartSystemCalc=false
-		
-	logMessage "++ $packageName uninstalled"
-fi
-
-
-
-if $filesUpdated ; then
-    ##
-    ## Reboot or restart the services
-    ##
-    svc -d /service/node-red-venus ; svc -u /service/node-red-venus
-    restartGui=false
-fi
-
-if $restartSystemCalc ; then
-	logMessage "restarting systemcalc"
-	svc -t /service/dbus-systemcalc-py
-fi
-
-# thats all folks - SCRIPT EXITS INSIDE THE FUNCTION
-endScript
+# never returns from CommonResources !

@@ -1,0 +1,19 @@
+--- venus-settings.js.source	2024-03-13 12:06:12.640476000 -0700
++++ venus-settings.js.edited	2024-03-13 12:14:12.274533500 -0700
+@@ -276,11 +276,11 @@
+       * provided here will enable file-based context that flushes to disk every 30 seconds.
+       * Refer to the documentation for further options: https://nodered.org/docs/api/context/
+       */
+-     //contextStorage: {
+-     //    default: {
+-     //        module:"localfilesystem"
+-     //    },
+-     //},
++     contextStorage: {
++         default: {
++             module:"localfilesystem"
++         },
++     },
+ 
+      /** `global.keys()` returns a list of all properties set in global context.
+       * This allows them to be displayed in the Context Sidebar within the editor.
