@@ -8,7 +8,6 @@
 #
 
 packageLogFile="/var/log/ContextStorage/current"
-set -x
 
 # link the package's setup script to this one:
 #	ln -s /data/SetupHelper/genericSetupScript /data/<package name>/setup
