@@ -1,4 +1,4 @@
 This is a package to be installed using Kevin Windrem's setup helper/ package manager for venus.os to automatically
 enable context storage in node red.
 Add the following package to the package manager: ContextStorage thomasinaz41213 main
-Minimum os v3.14 but if you have an older version let me know and I will update the package for your version.
+Minimum Venus OS v2.92.
