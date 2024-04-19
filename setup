@@ -18,7 +18,7 @@ packageLogFile="/var/log/ContextStorage/current"
 #	then exit
 #	CommonResources will NOT return here !
 rebootNeeded=true
-standardPromptAndActions='yes'
+#standardPromptAndActions='yes'
 
 #### following lines incorporate helper resources into this script
 pkgDir=$( dirname $0 )
@@ -35,3 +35,4 @@ fi
 #### end of lines to include helper resources
 
 # never returns from CommonResources !
+endScript INSTALL_FILES
