@@ -35,4 +35,5 @@ fi
 #### end of lines to include helper resources
 
 # never returns from CommonResources !
-endScript INSTALL_FILES EXIT_REBOOT
+rebootNeeded='true'
+endScript INSTALL_FILES
