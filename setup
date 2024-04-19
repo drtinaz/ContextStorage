@@ -17,7 +17,7 @@ packageLogFile="/var/log/ContextStorage/current"
 #	auto install or auto uninstall
 #	then exit
 #	CommonResources will NOT return here !
-rebootNeeded='true'
+rebootNeeded=true
 standardPromptAndActions='yes'
 
 #### following lines incorporate helper resources into this script
